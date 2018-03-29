@@ -28,6 +28,6 @@ steps:
   args: [ 'run', 'build.prod' ]
   
 - name: 'gcr.io/[PROJECT_ID]/firebase'
-  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT}', '--token', '${_FIREBASE_TOKEN}']
+  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT}', '--token', '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}' ]
   secretEnv: ['_FIREBASE_TOKEN']
   
