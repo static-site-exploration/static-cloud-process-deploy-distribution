@@ -1,0 +1,33 @@
+options:
+
+  substitution_option: 'ALLOW_LOOSE'
+  
+substitions:
+  
+  # Set these values in build config (for now)
+  #_FIREBASE_PROJECT: 
+  #_FIREBASE_TOKEN: 
+  #_FIREBASE_TOKEN_ENC: 
+  #_FIREBASE_TOKEN_KMS_KEY_NAME: 
+  #_FIREBASE_TOKEN_KMS_KEYRING_NAME: 
+  #_FIREBASE_TOKEN_KMS_SECRET_NAME:
+
+secrets:
+- kmsKeyName: projects/${PROJECT_ID}/locations/global/keyRings/${_FIREBASE_TOKEN_KMS_KEYRING_NAME}/cryptoKeys/${__FIREBASE_TOKEN_KMS_KEYRING_NAME}
+  secretEnv:
+    MY_SECRET: ${_FIREBASE_TOKEN_KMS_SECRET_NAME}
+
+steps:
+- name: 'gcr.io/cloud-builders/npm'
+  args: [ 'install' ]
+  
+- name: 'gcr.io/cloud-builders/npm'
+  args: [ 'test' ]
+  
+- name: 'gcr.io/cloud-builders/npm'
+  args: [ 'run', 'build.prod' ]
+  
+- name: 'gcr.io/[PROJECT_ID]/firebase'
+  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT}', '--token', '${_FIREBASE_TOKEN}']
+  secretEnv: ['_FIREBASE_TOKEN']
+  
