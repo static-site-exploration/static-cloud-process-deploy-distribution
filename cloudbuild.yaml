@@ -6,7 +6,7 @@ substitions:
   
   # Set these values in build config (for now)
   #_FIREBASE_PROJECT: 
-  #_FIREBASE_TOKEN: 
+  _FIREBASE_TOKEN: 1/Pc6q5R0yW29SxP8CJgl1grUyZZV_bj0QMOhC9IJv1v7jR4r3g97WBy8dKeT402co
   #_FIREBASE_TOKEN_ENC: 
   #_FIREBASE_TOKEN_KMS_KEY_NAME: 
   #_FIREBASE_TOKEN_KMS_KEYRING_NAME: 
