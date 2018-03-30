@@ -18,16 +18,9 @@ secrets:
     MY_SECRET: ${_FIREBASE_TOKEN_KMS_SECRET_NAME}
 
 steps:
-- name: 'gcr.io/cloud-builders/npm'
-  args: [ 'install' ]
+# Get the 
   
-- name: 'gcr.io/cloud-builders/npm'
-  args: [ 'test' ]
-  
-- name: 'gcr.io/cloud-builders/npm'
-  args: [ 'run', 'build.prod' ]
-  
-- name: 'gcr.io/[PROJECT_ID]/firebase'
+# Build the project using the site specific, firebase hosting preload image
+- name: 'gcr.io/[PROJECT_ID]/${_PRELOAD_IMAGE}
   args: [ 'deploy', '-P', '${_FIREBASE_PROJECT}', '--token', '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}' ]
   secretEnv: ['_FIREBASE_TOKEN']
-  
