@@ -17,10 +17,28 @@ secrets:
   secretEnv:
     MY_SECRET: ${_FIREBASE_TOKEN_KMS_SECRET_NAME}
 
+
+# substutions:
+
+  # _FIREBASE_PROJECT_DIR=/workspace/project/
+
 steps:
-# Get the 
+
+# Create required directories
+
+# mkdir ${_FIREBASE_PROJECT_DIR}
+
+# Clone the firebase project repo
+# git -C clone ${_FIREBASE_HOSTING_PROJECT_REPO} (to) /workspace/project/
+ 
+# OR: copy from the preload project to workspace from the preload image (more complicated)
+# OR: construct firebase.json from metadata (if there are no rewrite rules}
+
+# Clone the dist to the preloaded firebase project inside the site specific firebase delpoy container
   
+# git -C ${_DIST_REPO} (to) /workspace/project/{$_DIST_REPO_FOLDER}
+
 # Build the project using the site specific, firebase hosting preload image
 - name: 'gcr.io/[PROJECT_ID]/${_PRELOAD_IMAGE}
-  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT}', '--token', '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}' ]
+  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT_DIR}', '--token', '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}' ]
   secretEnv: ['_FIREBASE_TOKEN']
