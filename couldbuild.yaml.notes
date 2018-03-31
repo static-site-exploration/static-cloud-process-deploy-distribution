@@ -1,0 +1,27 @@
+# TEMP: just use firebase defaults for now
+- name: 'gcr.io/static-cloud-builders/firebase'
+  args: 
+  - 'init' #should init into /workspace
+  #- '-'
+
+# If the variable is empty firebase init project into workspace folder (using defaults)
+# Else; clone the repo
+  # Need use a bash script with the firebase cloud builder
+
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    cat EOF
+    { \n
+      "hosting": { \n
+        "public": "app", \n
+        "ignore": [ \n
+          "firebase.json", \n
+          "**/.*", \n
+          "**/node_modules/**" \n
+        ] \n
+      } \n
+    } \n
+    EOF
