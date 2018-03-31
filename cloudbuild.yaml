@@ -90,6 +90,15 @@ steps:
 # git -C ${} (to) /workspace/project/{$_DIST_REPO_FOLDER}
 
 # Build the project using the site specific, firebase hosting preload image
-- name: 'gcr.io/[PROJECT_ID]/firebase
-  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT_DIR}', '--token', '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}' ]
+- name: 'gcr.io/static-cloud-builders/firebase
+  args:
+  - 'deploy'
+  - '-project'
+  - '${_FIREBASE_PROJECT_DIR}'
+  - '--token'
+  - '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}'
+  - '--message'
+  - 'delpoying git DIST commit' ## NEED TO GET COMMIT ID FROM CLONE
+  - '--only'
+  - 
   secretEnv: ['_FIREBASE_TOKEN']
