@@ -2,43 +2,94 @@ options:
 
   substitution_option: 'ALLOW_LOOSE'
   
-substitions:
-  
-  # Set these values in build config (for now)
-  #_FIREBASE_PROJECT: 
-  _FIREBASE_TOKEN: 1/Pc6q5R0yW29SxP8CJgl1grUyZZV_bj0QMOhC9IJv1v7jR4r3g97WBy8dKeT402co
-  #_FIREBASE_TOKEN_ENC: 
-  #_FIREBASE_TOKEN_KMS_KEY_NAME: 
-  #_FIREBASE_TOKEN_KMS_KEYRING_NAME: 
-  #_FIREBASE_TOKEN_KMS_SECRET_NAME:
 
-secrets:
-- kmsKeyName: projects/${PROJECT_ID}/locations/global/keyRings/${_FIREBASE_TOKEN_KMS_KEYRING_NAME}/cryptoKeys/${__FIREBASE_TOKEN_KMS_KEYRING_NAME}
-  secretEnv:
-    MY_SECRET: ${_FIREBASE_TOKEN_KMS_SECRET_NAME}
+substitutions:
+    
+    # Working folders:
+    _FIREBASE_WORKING_DIR: '/workspace/project'
+
+    # Dist repo:
+    _DIST_REPO_SITE_DIR: '/.' # use as default
+    #_DIST_REPO_HTTPS:  # must be set in build variables
+
+    # Firebase specific:
+    _FIREBASE_PUBLIC_DIR: 'app' # use as a default    
+    #_FIREBASE_PROJECT_ID: # must be set in build variables  
+    #_FIREBASE_TOKEN: # must be set in build variables
+    #_FIREBASE_PROJECT_REPO_HTTPS: # can be empty 
+    
+    # For use with secrets:
+    #_FIREBASE_TOKEN_ENC: 
+    #_FIREBASE_TOKEN_KMS_KEY_NAME: 
+    #_FIREBASE_TOKEN_KMS_KEYRING_NAME: 
+    #_FIREBASE_TOKEN_KMS_SECRET_NAME:
+
+    ## FOR TESTING:
+    _FIREBASE_PROJECT_ID: 'with-mark-explore-static-sites'    
+    _DIST_REPO_HTTPS: 'https://github.com/static-site-exploration/explote-static-distribution-example.tld'    
+    _FIREBASE_TOKEN: '1/Pc6q5R0yW29SxP8CJgl1grUyZZV_bj0QMOhC9IJv1v7jR4r3g97WBy8dKeT402co'
+    _FIREBASE_PROJECT_REPO_HTTPS: 'https://github.com/static-site-exploration/explore-static-firebase-hosting-example.tld.git'
 
 
-# substutions:
+#secrets:
 
-  # _FIREBASE_PROJECT_DIR=/workspace/project/
+#- kmsKeyName: projects/${PROJECT_ID}/locations/global/keyRings/${_FIREBASE_TOKEN_KMS_KEYRING_NAME}/cryptoKeys/${__FIREBASE_TOKEN_KMS_KEYRING_NAME}
+#  secretEnv:
+#    MY_SECRET: ${_FIREBASE_TOKEN_KMS_SECRET_NAME}
+
 
 steps:
 
 # Create required directories
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    mkdir -p ${_FIREBASE_WORKING_DIR}
+    mkdir -p ${_FIREBASE_WORKING_DIR}/${_DIST_REPO_SITE_DIR}
+    
 
-# mkdir ${_FIREBASE_PROJECT_DIR}
+# Clone the firebase project repo (if the variable is not empty)
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - 'clone'
+  - '${_FIREBASE_HOSTING_PROJECT_REPO}'
+  - '${_FIREBASE_PROJECT_DIR}' # into folder (workspace/project)
 
-# Clone the firebase project repo
-# git -C clone ${_FIREBASE_HOSTING_PROJECT_REPO} (to) /workspace/project/
+
+# Clone the dist repo
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - '-C'
+  - '${_FIREBASE_PROJECT_DIR}/${_FIREBASE_PUBLIC_DIR}' # (workspace/project/site)
+  - 'clone'
+  - '${_DIST_REPO}'
+  - '/.' #(dont create a repo folder) 
+
+# Move the dist files to the correct firebase public dir
+
+  #_FIREBASE_PUBLIC_DIR
+
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    #mkdir -p ${_FIREBASE_PROJECT_DIR}/${_FIREBASE_PUBLIC_DIR}
+    # if (not /.)
+    mv ${_FIREBASE_PROJECT_DIR}/${_FIREBASE_PUBLIC_DIR}/${_DIST_REPO_SITE_DIR}/* ${_FIREBASE_PROJECT_DIR}/${_FIREBASE_PUBLIC_DIR}
+
+# git -C clone  (to) /workspace/project/
  
 # OR: copy from the preload project to workspace from the preload image (more complicated)
 # OR: construct firebase.json from metadata (if there are no rewrite rules}
 
 # Clone the dist to the preloaded firebase project inside the site specific firebase delpoy container
   
-# git -C ${_DIST_REPO} (to) /workspace/project/{$_DIST_REPO_FOLDER}
+# git -C ${} (to) /workspace/project/{$_DIST_REPO_FOLDER}
 
 # Build the project using the site specific, firebase hosting preload image
-- name: 'gcr.io/[PROJECT_ID]/${_PRELOAD_IMAGE}
+- name: 'gcr.io/[PROJECT_ID]/firebase
   args: [ 'deploy', '-P', '${_FIREBASE_PROJECT_DIR}', '--token', '$${_FIREBASE_TOKEN_KMS_SECRET_NAME}' ]
   secretEnv: ['_FIREBASE_TOKEN']
