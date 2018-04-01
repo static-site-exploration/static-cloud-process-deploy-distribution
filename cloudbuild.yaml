@@ -73,8 +73,8 @@ steps:
   args:
   - '-c'
   - |
-    mv ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}/* ${_FIREBASE_PROJECT_DIR}/${_FIREBASE_PUBLIC_DIR}
-    rm -rf ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}
+    cleanup(){mv ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}/* ${_FIREBASE_PROJECT_DIR}/${_FIREBASE_PUBLIC_DIR}; rm -rf ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}}
+    if [ $THIS != "./" ]; then cleanup fi
 
 # Deploy the project using the site specific, firebase hosting preload image
 - name: 'gcr.io/static-cloud-builders/firebase'
