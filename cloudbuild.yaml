@@ -54,6 +54,7 @@ steps:
   - \
   # get commit id to go here
   - |
+    cd ${_PROJECT_WORKING_DIR}
     firebase deploy
     --only hosting 
     --project ${_FIREBASE_PROJECT_ID}
