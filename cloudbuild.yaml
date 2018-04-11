@@ -60,4 +60,4 @@ steps:
     echo ${_FIREBASE_TOKEN}
     
 - name: 'gcr.io/static-cloud-builders/firebase'
-  args: [ 'deploy', '--project', '${_FIREBASE_PROJECT_ID}', '--token', '${_FIREBASE_TOKEN}']
+  args: [ 'deploy', '--only', 'hosting', '--project', '${_FIREBASE_PROJECT_ID}', '--token', '${_FIREBASE_TOKEN}']
