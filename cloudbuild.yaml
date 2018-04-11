@@ -37,11 +37,17 @@ steps:
 # Clone the dist repo
 - name: 'gcr.io/cloud-builders/git'
   args:
-  - '-C'
-  - '${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}'
   - 'clone'
   - '${_DIST_REPO_HTTPS}'
-  - './'
+  - 'tmp-dist'
+
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    mv tmp-dist/${_DIST_REPO_SITE_DIR}/* ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
+    rm -rf tmp-dist
 
 # Move the dist files to the correct firebase public dir
 - name: 'gcr.io/cloud-builders/git'
