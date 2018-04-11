@@ -18,7 +18,6 @@ steps:
 # Clone the firebase project repo (if the variable is not empty)
 - name: 'gcr.io/cloud-builders/git'
   args:
-  - 'clone'
   - '-C'
   - '${_PROJECT_WORKING_DIR}'
   - 'clone'
