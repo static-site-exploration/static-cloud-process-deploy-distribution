@@ -30,7 +30,7 @@ steps:
   args:
   - '-c'
   - |
-    mv tmp ${_PROJECT_WORKING_DIR} && rm -rf tmp
+    mv tmp/* ${_PROJECT_WORKING_DIR} && rm -rf tmp
     
   #git clone your_repo tmp && mv tmp/.git . && rm -rf tmp && git reset --mixed
 
