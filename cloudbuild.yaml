@@ -49,9 +49,8 @@ steps:
   args:
   - '-c'
   - |
-    #cp -r ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}/* 
     ls -a ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
     ls -a ${_PROJECT_WORKING_DIR}
     
 - name: 'gcr.io/static-cloud-builders/firebase'
-  args: [ '${_PROJECT_WORKING_DIR}', 'deploy', '-P', '${_FIREBASE_PROJECT_ID}', '--token', '[${_FIREBASE_TOKEN}]']
+  args: [ 'deploy', '-P', '${_FIREBASE_PROJECT_ID}', '--token', '[${_FIREBASE_TOKEN}]']
