@@ -50,15 +50,13 @@ steps:
   entrypoint: 'bash'
   args:
   - '-c'
-  - '|'
-  - 'firebase'
-  - 'deploy'
-  - '--only'
-  - 'hosting'  
-  - '-project'
-  - '${_PROJECT_WORKING_DIR}'
-  - '--token'
-  - '${_FIREBASE_TOKEN}'
-  - '--message'
-  - 'delpoying from ${_DIST_REPO_HTTPS}'
+  - |
+  - \
+  # get commit id to go here
+  - |
+    firebase deploy
+    --only hosting 
+    --project ${_FIREBASE_PROJECT_ID}
+    --token ${_FIREBASE_TOKEN}
+    --message "delpoying from ${_DIST_REPO_HTTPS}"
  
