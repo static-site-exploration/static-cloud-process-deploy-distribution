@@ -13,7 +13,7 @@ steps:
   args:
   - '-c'
   - |
-    mkdir -p ${_PROJECT_WORKING_DIR}
+    #mkdir -p ${_PROJECT_WORKING_DIR}
     mkdir -p ${_DIST_WORKING_DIR}
 
 # Clone the firebase project repo (if the variable is not empty)
