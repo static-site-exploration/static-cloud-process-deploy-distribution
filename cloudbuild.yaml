@@ -12,6 +12,6 @@ steps:
   args:
   - '-c'
   - |
-    mkdir -p ${_FIREBASE_WORKING_DIR}
+    mkdir -p ${_PROJECT_WORKING_DIR}
     mkdir -p ${_DIST_WORKING_DIR}
 
