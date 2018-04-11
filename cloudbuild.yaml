@@ -3,6 +3,7 @@ substitutions:
     # Working folders:
     _PROJECT_WORKING_DIR: '/workspace/project'
     _DIST_WORKING_DIR: '/workspace/dist'
+    _DIST_REPO_SITE_DIR: './'
 
 steps:
 
@@ -32,3 +33,13 @@ steps:
   - 'clone'
   - '${_DIST_REPO_HTTPS}'
   - './'
+
+# Move the dist files to the correct firebase public dir
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    cp -r ${_DIST_WORKING_DIR}/{_DIST_REPO_SITE_DIR}/* ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
+    
+  
