@@ -1,7 +1,7 @@
 substitutions:
     
     # Working folders:
-    _PROJECT_WORKING_DIR: '/workspace/project'
+    _PROJECT_WORKING_DIR: '/workspace'
     _DIST_WORKING_DIR: '/workspace/dist'
     _DIST_REPO_SITE_DIR: './'
 
