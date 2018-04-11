@@ -15,3 +15,9 @@ steps:
     mkdir -p ${_PROJECT_WORKING_DIR}
     mkdir -p ${_DIST_WORKING_DIR}
 
+# Clone the firebase project repo (if the variable is not empty)
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - 'clone'
+  - '${_FIREBASE_HOSTING_PROJECT_REPO_HTTPS}'
+  - '${_PROJECT_WORKING_DIR}' # into folder (workspace/project)
