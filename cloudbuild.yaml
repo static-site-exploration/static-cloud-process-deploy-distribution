@@ -21,3 +21,12 @@ steps:
   - 'clone'
   - '${_FIREBASE_HOSTING_PROJECT_REPO_HTTPS}'
   - '${_PROJECT_WORKING_DIR}' # into folder (workspace/project)
+
+# Clone the dist repo
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - '-C'
+  - '${_DIST_WORKING_DIR}'
+  - 'clone'
+  - '${_DIST_REPO_HTTPS}'
+  - './'
