@@ -40,6 +40,6 @@ steps:
   args:
   - '-c'
   - |
-    cp -r ${_DIST_WORKING_DIR}/{_DIST_REPO_SITE_DIR}/* ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
+    cp -r ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}/* ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
     
   
