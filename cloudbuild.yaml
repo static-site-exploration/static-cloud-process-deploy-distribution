@@ -15,12 +15,13 @@ steps:
   - |
     #mkdir -p ${_PROJECT_WORKING_DIR}
     mkdir -p ${_DIST_WORKING_DIR}
+    mkdir -p ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
 
 # Clone the firebase project repo (if the variable is not empty)
 - name: 'gcr.io/cloud-builders/git'
   args:
-  - '-C'
-  - '${_PROJECT_WORKING_DIR}'
+  #- '-C'
+  #- '${_PROJECT_WORKING_DIR}'
   - 'clone'
   - '${_FIREBASE_HOSTING_PROJECT_REPO_HTTPS}'
   - './'
@@ -29,7 +30,7 @@ steps:
 - name: 'gcr.io/cloud-builders/git'
   args:
   - '-C'
-  - '${_DIST_WORKING_DIR}'
+  - '${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}'
   - 'clone'
   - '${_DIST_REPO_HTTPS}'
   - './'
@@ -40,8 +41,7 @@ steps:
   args:
   - '-c'
   - |
-    mkdir -p ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
-    cp -r ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}/* ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
+    #cp -r ${_DIST_WORKING_DIR}/${_DIST_REPO_SITE_DIR}/* 
     ls -a ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
     ls -a ${_PROJECT_WORKING_DIR}
     
