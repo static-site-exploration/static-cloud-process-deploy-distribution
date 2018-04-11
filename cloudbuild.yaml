@@ -3,7 +3,7 @@ substitutions:
     # Working folders:
     _PROJECT_WORKING_DIR: '/workspace'
     _DIST_WORKING_DIR: '/workspace/dist'
-    _DIST_REPO_SITE_DIR: './'
+    _DIST_REPO_SITE_DIR: '.'
 
 steps:
 
@@ -13,18 +13,26 @@ steps:
   args:
   - '-c'
   - |
-    #mkdir -p ${_PROJECT_WORKING_DIR}
+    mkdir -p ${_PROJECT_WORKING_DIR}
     mkdir -p ${_DIST_WORKING_DIR}
     mkdir -p ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
 
 # Clone the firebase project repo (if the variable is not empty)
 - name: 'gcr.io/cloud-builders/git'
   args:
-  #- '-C'
-  #- '${_PROJECT_WORKING_DIR}'
   - 'clone'
   - '${_FIREBASE_HOSTING_PROJECT_REPO_HTTPS}'
-  - './'
+  - 'tmp'
+
+# Move
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    mv tmp ${_PROJECT_WORKING_DIR} && rm -rf tmp
+    
+  #git clone your_repo tmp && mv tmp/.git . && rm -rf tmp && git reset --mixed
 
 # Clone the dist repo
 - name: 'gcr.io/cloud-builders/git'
