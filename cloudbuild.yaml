@@ -69,8 +69,6 @@ steps:
   args:
   - '-c'
   - |
-    firebase deploy
-    --only hosting 
-    --project ${_FIREBASE_PROJECT_ID}
-    --token ${_FIREBASE_TOKEN}
-    --message "delpoying from ${_DIST_REPO_HTTPS}"
+    echo "do something here"
+    firebase deploy --only hosting --project ${_FIREBASE_PROJECT_ID} --token ${_FIREBASE_TOKEN} --message "delpoying from ${_DIST_REPO_HTTPS}"
+    
