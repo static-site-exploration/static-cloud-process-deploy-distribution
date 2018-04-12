@@ -40,7 +40,7 @@ steps:
   - |
     git clone ${_DIST_REPO_HTTPS} tmp-dist
     echo $(git -C tmp-dist rev-parse --verify HEAD)
-    echo $(basename "git rev-parse --show-toplevel")
+    echo $(basename $(git rev-parse --show-toplevel))
     #get the commit sha and set in a file inside workspace
     
 #- name: 'gcr.io/cloud-builders/git'
