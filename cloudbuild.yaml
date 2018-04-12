@@ -40,9 +40,13 @@ steps:
   - '-c'
   - |
     git clone ${_DIST_REPO_HTTPS} ${_DIST_TMP}
+    \
+    #get the commit sha 
     echo $(git -C ${_DIST_TMP} rev-parse --verify HEAD)
+    echo $(cat ${_DIST_TMP}/.git/refs/heads/master) #without using git command 
+    \
+    #get the repo basename (may not need this)
     echo $(basename $(git -C ${_DIST_TMP} rev-parse --show-toplevel))
-    #get the commit sha and set in a file inside workspace
     
 #- name: 'gcr.io/cloud-builders/git'
 #  args:
@@ -57,7 +61,7 @@ steps:
   - '-c'
   - |
     mv ${_DIST_TMP}/${_DIST_REPO_SITE_DIR}/* ${_PROJECT_WORKING_DIR}/${_FIREBASE_PUBLIC_DIR}
-    rm -rf ${_DIST_TMP}
+    #rm -rf ${_DIST_TMP} # dont delete yet, may need to get commit id
 
 # Move the dist files to the correct firebase public dir
 - name: 'gcr.io/cloud-builders/git'
@@ -80,5 +84,5 @@ steps:
   - '-c'
   - |
     echo "do something here"
-    firebase deploy --only hosting --project ${_FIREBASE_PROJECT_ID} --token ${_FIREBASE_TOKEN} --message "delpoying from ${_DIST_REPO_HTTPS}"
+    firebase deploy --only hosting --project ${_FIREBASE_PROJECT_ID} --token ${_FIREBASE_TOKEN} --message "deployed dist commit id: XXXXXXXXXXXXXXXXXX from dist repo: ${_DIST_REPO_HTTPS}"
     
