@@ -84,5 +84,5 @@ steps:
   - '-c'
   - |
     echo "do something here"
-    firebase deploy --only hosting --project ${_FIREBASE_PROJECT_ID} --token ${_FIREBASE_TOKEN} --message "deployed dist commit id: XXXXXXXXXXXXXXXXXX from dist repo: ${_DIST_REPO_HTTPS}"
+    firebase deploy --only hosting --project ${_FIREBASE_PROJECT_ID} --token ${_FIREBASE_TOKEN} --message "deployed dist commit id: $(cat ${_DIST_TMP}/.git/refs/heads/master) from dist repo: ${_DIST_REPO_HTTPS}"
     
