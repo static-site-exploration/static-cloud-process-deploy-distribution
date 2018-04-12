@@ -59,5 +59,18 @@ steps:
     ls -a ${_PROJECT_WORKING_DIR}
     echo ${_FIREBASE_TOKEN}
     
+# Deploy the project using the site specific, firebase hosting preload image
+
+#- name: 'gcr.io/static-cloud-builders/firebase'
+#  args: [ 'deploy', '--only', 'hosting', '--project', '${_FIREBASE_PROJECT_ID}', '--token', '${_FIREBASE_TOKEN}']
+
 - name: 'gcr.io/static-cloud-builders/firebase'
-  args: [ 'deploy', '--only', 'hosting', '--project', '${_FIREBASE_PROJECT_ID}', '--token', '${_FIREBASE_TOKEN}']
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    firebase deploy
+    --only hosting 
+    --project ${_FIREBASE_PROJECT_ID}
+    --token ${_FIREBASE_TOKEN}
+    --message "delpoying from ${_DIST_REPO_HTTPS}"
