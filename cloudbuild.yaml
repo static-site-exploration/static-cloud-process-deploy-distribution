@@ -24,7 +24,7 @@ steps:
   - '${_FIREBASE_HOSTING_PROJECT_REPO_HTTPS}'
   - 'tmp'
 
-# Move
+# Move the project files to workspace (git clone work around)
 - name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
@@ -32,15 +32,22 @@ steps:
   - |
     mv tmp/* ${_PROJECT_WORKING_DIR} && rm -rf tmp
     
-  #git clone your_repo tmp && mv tmp/.git . && rm -rf tmp && git reset --mixed
-
-# Clone the dist repo
+# Clone the dist repo then get and set the last dist commit ID that is being used
 - name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
   args:
-  - 'clone'
-  - '${_DIST_REPO_HTTPS}'
-  - 'tmp-dist'
+  - '-c'
+  - |
+    git clone ${_DIST_REPO_HTTPS} tmp-dist
+    #get the commit sha and set in a file inside workspace
+    
+#- name: 'gcr.io/cloud-builders/git'
+#  args:
+#  - 'clone'
+#  - '${_DIST_REPO_HTTPS}'
+#  - 'tmp-dist'
 
+# Move the dist files to the firebase public directory
 - name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
